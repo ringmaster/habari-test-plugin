@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pluggable type="plugin">
+	<name>Test Plugin</name>
+	<license url="http://www.apache.org/licenses/LICENSE-2.0.html">Apache Software License 2.0</license>
+	<author url="http://owenw.com/">Owen Winkler</author>
+	<version>0.16</version>
+	<url>http://owenw.com/</url>
+	<description><![CDATA[Test plugin for Habari.]]></description>
+	<copyright>2010</copyright>
+	<help>
+		<value><![CDATA[
+			<p>This plugin tests stuff.</p>
+		]]></value>
+	</help>
+	<requires>
+		<feature url="http://wiki.habariproject.org/en/feature/menu">menu</feature>
+		<feature url="http://wiki.habariproject.org/en/feature/test_harness">test harness</feature>
+	</requires>
+	<provides>
+		<feature url="http://wiki.habariproject.org/en/feature/sample">sample</feature>
+	</provides>
+	<conflicts>
+		<feature url="http://wiki.habariproject.org/en/feature/sample">sample</feature>
+	</conflicts>
+</pluggable>
+ 
