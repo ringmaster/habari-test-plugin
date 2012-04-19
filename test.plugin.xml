@@ -5,12 +5,23 @@
 	<author url="http://owenw.com/">Owen Winkler</author>
 	<version>0.16</version>
 	<url>http://owenw.com/</url>
-	<description><![CDATA[Test plugin for Habari.]]></description>
+	<description xml:lang="en-us"><![CDATA[Test plugin for Habari.]]></description>
+	<description xml:lang="sv"><![CDATA[Bork bork bork de piggy guinea bork bork bork.]]></description>
 	<copyright>2010</copyright>
 	<guid>3e2e7dea-a180-4331-b21a-c8bc586de7fb</guid>
-	<help>
+	<help name="main">
 		<value><![CDATA[
 			<p>This plugin tests stuff.</p>
+		]]></value>
+	</help>
+	<help name="main">
+		<value><![CDATA[
+			<p>This is the main plugin help.</p>
+		]]></value>
+	</help>
+	<help name="secondary">
+		<value><![CDATA[
+			<p>This plugin doesn't do a very good job of testing anything.</p>
 		]]></value>
 	</help>
 	<requires>
