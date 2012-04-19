@@ -9,7 +9,7 @@
 	<description xml:lang="sv"><![CDATA[Bork bork bork de piggy guinea bork bork bork.]]></description>
 	<copyright>2010</copyright>
 	<guid>3e2e7dea-a180-4331-b21a-c8bc586de7fb</guid>
-	<help name="main">
+	<help>
 		<value><![CDATA[
 			<p>This plugin tests stuff.</p>
 		]]></value>
