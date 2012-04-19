@@ -4,6 +4,7 @@ class Test extends Plugin
 {
 	public function action_init()
 	{
+		// Not sure what the heck this was for.
 		$this->add_template('block.pbi', dirname( __FILE__ ) . '/block.pbi.php' );
 	}
 
