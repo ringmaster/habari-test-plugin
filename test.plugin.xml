@@ -15,8 +15,10 @@
 	</help>
 	<requires>
 		<feature url="http://wiki.habariproject.org/en/feature/menu">menu</feature>
-		<feature url="http://wiki.habariproject.org/en/feature/test_harness">test harness</feature>
 	</requires>
+	<recommends>
+		<feature url="http://wiki.habariproject.org/en/feature/test_harness">test harness</feature>
+	</recommends>
 	<provides>
 		<feature url="http://wiki.habariproject.org/en/feature/sample">sample</feature>
 	</provides>
