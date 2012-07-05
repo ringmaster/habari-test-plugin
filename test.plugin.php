@@ -6,6 +6,16 @@ class Test extends Plugin
 	{
 		// Not sure what the heck this was for.
 		$this->add_template('block.pbi', dirname( __FILE__ ) . '/block.pbi.php' );
+
+		$this->add_rule('"testplugin"', 'foo');
+
+		DB::register_table('entries');
+	}
+
+	public function action_plugin_act_foo($handler)
+	{
+		Utils::debug($handler);
+		exit();
 	}
 
 
@@ -210,7 +220,7 @@ FORM;
 		$groups = $groups->getArrayCopy();
 		$hidden_groups = array(
 			'new test group',
-			'family',
+			//'family',
 		);
 		foreach($groups as $index => $group) {
 			if(in_array($group->name, $hidden_groups)) {
@@ -218,6 +228,47 @@ FORM;
 			}
 		}
 		return $groups;
+	}
+
+	public function filter_list_unit_tests($tests)
+	{
+		$unit_tests = glob(dirname(__FILE__). '/units/test_*.php');
+		$tests = array_merge($tests, $unit_tests);
+		return $tests;
+	}
+/*
+	public function filter_post_schema_map_entry($schema, $post) {
+		// Take all of the fields in this post that aren't stored in the posts table,
+		// and store them in the invoices table
+		$schema['entries'] = $schema['*'];
+		$schema['entries']['body'] = 'content';
+		// Store the id of the post in the post_id field of the invoices table
+		$schema['entries']['post_id'] = '*id';
+		return $schema;
+	}
+
+	public function filter_posts_get_paramarray($paramarray) {
+		$paramarray['post_join'] = array('{entries}');
+		$e = isset($paramarray['default_fields']) ? $paramarray['default_fields'] : array();
+		$e['{entries}.body'] = '';
+		$paramarray['default_fields'] = $e;
+		return $paramarray;
+	}*/
+
+/*	public function filter_post_default_fields($fields, $params) {
+		$fields['{entries}.body'] = '';
+		return $fields;
+	}*/
+
+	public function filter_posts_get_update_preset($preset_parameters, $presetname, $paramarray) {
+		switch($presetname) {
+			case 'home':
+				$content_type = isset($preset_parameters['content_type']) ? Utils::single_array($preset_parameters['content_type']) : array();
+				$content_type[] = 'tweet';
+				$preset_parameters['content_type'] = $content_type;
+				break;
+		}
+		return $preset_parameters;
 	}
 
 }

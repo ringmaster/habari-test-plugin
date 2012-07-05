@@ -3,7 +3,7 @@
 	<name>Test Plugin</name>
 	<license url="http://www.apache.org/licenses/LICENSE-2.0.html">Apache Software License 2.0</license>
 	<author url="http://owenw.com/">Owen Winkler</author>
-	<version>0.16</version>
+	<version>0.17</version>
 	<url>http://owenw.com/</url>
 	<description xml:lang="en-us"><![CDATA[Test plugin for Habari.]]></description>
 	<description xml:lang="sv"><![CDATA[Bork bork bork de piggy guinea bork bork bork.]]></description>
@@ -24,9 +24,11 @@
 			<p>This plugin doesn't do a very good job of testing anything.</p>
 		]]></value>
 	</help>
+<!--
 	<requires>
 		<feature url="http://wiki.habariproject.org/en/feature/menu">menu</feature>
 	</requires>
+-->
 	<recommends>
 		<feature url="http://wiki.habariproject.org/en/feature/test_harness">test harness</feature>
 	</recommends>
