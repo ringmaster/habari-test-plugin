@@ -9,6 +9,8 @@ class Test extends Plugin
 
 		$this->add_rule('"testplugin"', 'foo');
 
+		$this->add_rule('"submit_addon"', 'submit_addon');
+
 		DB::register_table('entries');
 	}
 
@@ -269,6 +271,154 @@ FORM;
 				break;
 		}
 		return $preset_parameters;
+	}
+
+	public function theme_route_submit_addon($theme)
+	{
+		$theme->display('header');
+		$form = new FormUI('addon');
+
+		$json = <<< JSON
+{
+  "pusher":{
+    "name":"ringmaster",
+    "email":"a_github@midnightcircus.com"
+  },
+  "hook_callpath":"new",
+  "repository":{
+    "name":"secretfile",
+    "size":112,
+    "has_wiki":true,
+    "created_at":"2013-01-22T11:02:54-08:00",
+    "private":false,
+    "watchers":0,
+    "language":"PHP",
+    "fork":false,
+    "url":"https://github.com/ringmaster/secretfile",
+    "id":7758959,
+    "pushed_at":"2013-01-22T13:00:26-08:00",
+    "has_downloads":true,
+    "open_issues":0,
+    "has_issues":true,
+    "forks":0,
+    "description":"This Habari plugin allows the insertion of links to files into a post such that access to those links is only allowed if you are also allowed access to the post they appear in.",
+    "stargazers":0,
+    "owner":{
+      "name":"ringmaster",
+      "email":"a_github@midnightcircus.com"
+    }
+  },
+  "forced":false,
+  "after":"7b9775cb1f23068c6b37f05d9557ad318fce5f5f",
+  "head_commit":{
+    "modified":[
+      "secretfile.plugin.xml"
+    ],
+    "added":[
+
+    ],
+    "timestamp":"2013-01-22T13:00:00-08:00",
+    "author":{
+      "name":"ringmaster",
+      "username":"ringmaster",
+      "email":"a_github@midnightcircus.com"
+    },
+    "removed":[
+
+    ],
+    "url":"https://github.com/ringmaster/secretfile/commit/7b9775cb1f23068c6b37f05d9557ad318fce5f5f",
+    "id":"7b9775cb1f23068c6b37f05d9557ad318fce5f5f",
+    "distinct":true,
+    "message":"Add GUID and help. Fixes #1",
+    "committer":{
+      "name":"ringmaster",
+      "username":"ringmaster",
+      "email":"a_github@midnightcircus.com"
+    }
+  },
+  "deleted":false,
+  "ref":"refs/heads/master",
+  "commits":[
+    {
+      "modified":[
+        "secretfile.plugin.xml"
+      ],
+      "added":[
+
+      ],
+      "timestamp":"2013-01-22T13:00:00-08:00",
+      "author":{
+        "name":"ringmaster",
+        "username":"ringmaster",
+        "email":"a_github@midnightcircus.com"
+      },
+      "removed":[
+
+      ],
+      "url":"https://github.com/ringmaster/secretfile/commit/7b9775cb1f23068c6b37f05d9557ad318fce5f5f",
+      "id":"7b9775cb1f23068c6b37f05d9557ad318fce5f5f",
+      "distinct":true,
+      "message":"Add GUID and help. Fixes #1",
+      "committer":{
+        "name":"ringmaster",
+        "username":"ringmaster",
+        "email":"a_github@midnightcircus.com"
+      }
+    }
+  ],
+  "before":"092e6178fba5289d5820506b7cde3e67edc956f3",
+  "compare":"https://github.com/ringmaster/secretfile/compare/092e6178fba5...7b9775cb1f23",
+  "created":false
+}
+JSON;
+
+		$xml = <<< XML
+<?xml version="1.0" encoding="utf-8"?>
+<pluggable type="plugin">
+	<name>Secret File</name>
+	<license url="http://www.apache.org/licenses/LICENSE-2.0.html">Apache Software License 2.0</license>
+
+	<author url="http://owenw.com/">Owen Winkler</author>
+
+	<version>1.0</version>
+	<url>http://redalt.com/</url>
+	<description><![CDATA[This plugin allows the insertion of links to files into a post such that access to those links is only allowed if you are also allowed access to the post they appear in.]]></description>
+
+	<copyright>2013</copyright>
+
+	<help>
+		<value><![CDATA[
+		<p>Install and activate the plugin.  Create a post.  Find a file in the Habari Silo to insert as a link into the post.  Choose the new menu option "insert secret_link" from the menu under that file.  A shorttag will appear in the editor.  Save the post.
+
+		<p>The shorttag that is created will be rendered as a link by Habari when the post is displayed to a user.  When the user clicks on the link, the selected file downloads.
+
+		<p>Displaying the link in the post saves a value to that user's session.  As a result, the user must visit the post immediately prior to attempting the download.  If the user attempts to go directly to the download URL without visiting the post, they will first be redirected to the post.  If they are not logged in, it's possible that the post will "not exist" for them, and they will instead be directed to the home page.  If permissions prevent the user from viewing the post, they will not be able to download the file.
+		]]></value>
+	</help>
+
+	<guid>bca39cf7-602c-4f98-87a0-3a98bea2a168</guid>
+
+</pluggable>
+XML;
+
+
+
+		$form->append(new FormControlTextArea('json', 'null:null', 'JSON'));
+		$form->json->value = $json;
+		$form->append(new FormControlTextArea('xml', 'null:null', 'XML'));
+		$form->xml->value = $xml;
+		$form->append(new FormControlSubmit('submit', 'Submit'));
+		$form->on_save(array($this, 'addon_success'));
+		$form->out();
+		$theme->display('footer');
+	}
+
+	public function addon_success($form)
+	{
+		$plugins = Plugins::get_by_interface('PostReceive');
+		var_dump($plugins);
+		$plugin = reset($plugins);
+		var_dump($plugin->process_update(html_entity_decode($form->json->value)));
 	}
 
 }
